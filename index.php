@@ -19,5 +19,6 @@
 			<h1><?php echo $_POST["input1"]; ?></h1>
 
 	<?php } ?>
+	<h1>este html es una poronga</h1>
 </body>
 </html>
