@@ -5,7 +5,7 @@
 	<title>Prueba PHP</title>
 </head>
 <body>
-	<h1>Formulario Piola</h1>
+	<h1>Formulario</h1>
 	<?php if(!isset($_POST["input1"])) { ?>
 		<form action="index.php" method="POST">
 			<h2>Llena los campos</h2>
