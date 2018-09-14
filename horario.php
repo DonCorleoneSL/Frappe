@@ -21,7 +21,7 @@
 		$this->horaInicio = $horaInicio;
 		$this->horaFin = $horaFin;
 	}
-
+    
 	
     public function getId()
     {

@@ -1,34 +1,43 @@
 <?php 
 	class Database{
 
-	 private $conn;	
-	 private $servername = "localhost"; 
-	 private $username = "root";
-	 private $password = "root";
-	 private $dbname = "Frappe";
+	 private $servername; 
+	 private $username;
+	 private $password;
+	 private $dbname;
+	 private $charset;
 
 	 public function __construct(){
-	 	$this->connect_db();
+	 	$this->connect();
 	 }
 
-	 public function connect_db(){
-	 	$this->conn = mysqli($this->servername, $this->username, $this->password, $this->dbname);
+	 protected function connect(){
+		$this-> servername = "localhost"; 
+		$this-> username = "root";
+		$this-> password = "";
+		$this-> dbname = "Frappe";
+		$this-> charset = "utf8mb4";
 
-	 	if($conn->connect_error){
-		die("Connection failed: ".$conn->connect_error);
-	 }else{
-		echo "Connected successfully";
+		try {
+			$dsn = "mysql:host=".$this->servername.";dbname=".$this->dbname.";charset=".$this->charset;
+	 		$pdo = new PDO($dsn,$this->username, $this->password);
+	 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	 		return $pdo;
+		} catch (PDOException $e) {
+			echo "Connection failed: ".$e->getMessage();
+		}
+	 	
 	 }
 
-	 }
-
-	 //Universal Function for Querys.
 	 public function queryExec($sql){
-		//Call global var connection.
-		global $conn;
-		//Execute mysqli_query with parameths $conn and $sql.
-		if(mysqli_query($conn, $sql)){
-			echo "Consulta Exitosa";
+		$stmt = $this->connect()->query($sql);
+		if($stmt){
+			$personas = $stmt->fetchAll(PDO::FETCH_OBJ);
+			foreach ($personas as $persona) {
+				echo $persona->Nombre."  ";
+				echo $persona->Apellido ."<br>";
+			}
+
 		}else{
 			echo "Hace bien las cosas pelotudo";
 		}
